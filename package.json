@@ -4,7 +4,7 @@
   "description": "Custom rate limiter for NestJS",
   "author": "Unsoon Social <opensource@unsoon.com>",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/unsoon/rate-limit.git"
@@ -13,6 +13,12 @@
     "url": "https://github.com/unsoon/rate-limit/issues"
   },
   "homepage": "https://github.com/unsoon/rate-limit#readme",
+  "keywords": [
+    "rate-limit",
+    "nestjs",
+    "ddos",
+    "unsoon"
+  ],
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
