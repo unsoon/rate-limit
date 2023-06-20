@@ -5,6 +5,14 @@
   "author": "Unsoon Social <opensource@unsoon.com>",
   "private": true,
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unsoon/rate-limit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/unsoon/rate-limit/issues"
+  },
+  "homepage": "https://github.com/unsoon/rate-limit#readme",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
