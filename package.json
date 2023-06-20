@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Custom rate limiter for NestJS",
   "author": "Unsoon Social <opensource@unsoon.com>",
-  "private": true,
+  "private": false,
   "license": "MIT",
   "repository": {
     "type": "git",
