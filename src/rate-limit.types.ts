@@ -1,5 +1,12 @@
 import { Request } from 'express';
 
+export abstract class RateLimitStore {
+  ttl = 0;
+  abstract get(key: string): Promise<RateLimitStoreValues | null>;
+  abstract set(key: string, value: RateLimitStoreValues): Promise<RateLimitStoreValues>;
+  abstract delete(key: string): Promise<void>;
+}
+
 export interface RateLimitStoreValues extends Record<string, any> {
   /**
    * The number of requests made.
