@@ -1,3 +1,4 @@
+import { ModuleMetadata, Type } from '@nestjs/common';
 import { Request } from 'express';
 
 export abstract class RateLimitStore {
@@ -30,3 +31,27 @@ export interface RateLimitOptions {
 }
 
 export type RateLimitConfig = RateLimitOptions | ((request: Request) => RateLimitOptions);
+
+export interface RateLimitConfigFactory {
+  createRateLimitConfig(): Promise<RateLimitConfig> | RateLimitConfig;
+}
+
+export interface RateLimitAsyncConfig extends Pick<ModuleMetadata, 'imports'> {
+  /**
+   * The `useExisting` syntax allows you to create aliases for existing providers.
+   */
+  useExisting?: Type<RateLimitConfigFactory>;
+  /**
+   * The `useClass` syntax allows you to dynamically determine a class
+   * that a token should resolve to.
+   */
+  useClass?: Type<RateLimitConfigFactory>;
+  /**
+   * The `useFactory` syntax allows for creating providers dynamically.
+   */
+  useFactory?: (...args: any[]) => Promise<RateLimitConfig> | RateLimitConfig;
+  /**
+   * Optional list of providers to be injected into the context of the Factory function.
+   */
+  inject?: any[];
+}
