@@ -19,9 +19,10 @@ jobs:
     steps:
       - name: Release please action
         id: release
-        uses: google-github-actions/release-please-action@v3
+        uses: GoogleCloudPlatform/release-please-action@v2
         with:
           release-type: node
+          changelog-types: ${{ vars.CHANGELOG_TYPES }}
 
   build-and-publish:
     needs: [release-please]
