@@ -1,6 +1,6 @@
 {
   "name": "@unsoon/rate-limit",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Custom rate limiter for NestJS",
   "author": "Unsoon Social <opensource@unsoon.com>",
   "private": false,
