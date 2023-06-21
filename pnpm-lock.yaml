@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 devDependencies:
   '@commitlint/cli':
     specifier: ^17.6.5
@@ -24,8 +20,8 @@ devDependencies:
     specifier: ^10.0.0
     version: 10.0.0(@nestjs/common@10.0.0)(@nestjs/core@10.0.0)
   '@nestjs/schematics':
-    specifier: ^10.0.0
-    version: 10.0.0(chokidar@3.5.3)(typescript@5.1.3)
+    specifier: ^10.0.1
+    version: 10.0.1(chokidar@3.5.3)(typescript@5.1.3)
   '@nestjs/testing':
     specifier: ^10.0.0
     version: 10.0.0(@nestjs/common@10.0.0)(@nestjs/core@10.0.0)(@nestjs/platform-express@10.0.0)
@@ -1026,7 +1022,7 @@ packages:
       '@angular-devkit/core': 16.1.0(chokidar@3.5.3)
       '@angular-devkit/schematics': 16.1.0(chokidar@3.5.3)
       '@angular-devkit/schematics-cli': 16.1.0(chokidar@3.5.3)
-      '@nestjs/schematics': 10.0.0(chokidar@3.5.3)(typescript@5.1.3)
+      '@nestjs/schematics': 10.0.1(chokidar@3.5.3)(typescript@5.1.3)
       chalk: 4.1.2
       chokidar: 3.5.3
       cli-table3: 0.6.3
@@ -1120,8 +1116,8 @@ packages:
       - supports-color
     dev: true
 
-  /@nestjs/schematics@10.0.0(chokidar@3.5.3)(typescript@5.1.3):
-    resolution: {integrity: sha512-gfUy/N1m1paN33BXq4d7HoCM+zM4rFxYjqAb8jkrBfBHiwyEhHHozfX/aRy/kOnAcy/VP8v4Zs4HKKrbRRlHnw==}
+  /@nestjs/schematics@10.0.1(chokidar@3.5.3)(typescript@5.1.3):
+    resolution: {integrity: sha512-buxpYtSwOmWyf0nUJWJCkCkYITwbOfIEKHTnGS7sDbcfaajrOFXb5pPAGD2E1CUb3C1+NkQIURPKzs0IouZTQg==}
     peerDependencies:
       typescript: '>=4.8.2'
     dependencies:
@@ -5937,3 +5933,7 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
