@@ -26,6 +26,7 @@ export interface RateLimitOptions {
   ignoreUserAgents?: RegExp[];
   skipIf?: boolean | ((request: Request) => boolean);
   errorMessage?: string;
+  store: RateLimitStore;
 }
 
 export type RateLimitConfig = RateLimitOptions | ((request: Request) => RateLimitOptions);
