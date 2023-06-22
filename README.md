@@ -420,7 +420,7 @@ Alternatively, you can use a callback function to dynamically determine the rate
 
 In this example, the rate limit options are determined based on the isPremium property of the req.user object. If the user is premium, a higher limit of 100 requests is allowed; otherwise, a limit of 10 requests is enforced.
 
-### @SkipRateLimit()
+#### @SkipRateLimit()
 
 The `@SkipRateLimit()` decorator allows you to skip rate limiting for specific routes or controllers. It can be used in the following ways:
 
