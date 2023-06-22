@@ -46,6 +46,7 @@ pnpm add @unsoon/rate-limit
       - [Skipping with conditions](#skipping-with-conditions)
   - [Proxies](#proxies)
   - [Working with GraphQL](#working-with-graphql)
+  - [Working with Websockets](#working-with-websockets)
 - [License](#license)
 
 ## Usages
@@ -369,11 +370,36 @@ Here's an example of how to set a custom error message:
 export class AppModule {}
 ```
 
-In the example above, the `message` option is set to the desired error message. When a request exceeds the rate limit, this custom error message will be sent as the response to the client.
+In the example above, the `errorMessage` option is set to the desired error message. When a request exceeds the rate limit, this custom error message will be sent as the response to the client.
 
 By providing a meaningful error message, you can communicate the reason for the rate limit restriction and inform the client about when they can retry their request.
 
-Feel free to modify the `message` option to suit your specific use case and provide an appropriate error message to your clients.
+Feel free to modify the `errorMessage` option to suit your specific use case and provide an appropriate error message to your clients.
+
+### Headers
+
+The `RateLimitModule` automatically adds several headers to the response to provide rate limit information. Here are the headers that are included:
+
+- `x-rate-limit`: Indicates the maximum number of requests the client can make within the defined time window.
+- `x-rate-remaining`: Indicates the number of requests remaining for the client within the current time window.
+- `x-rate-reset`: Specifies the number of seconds remaining until the rate limit resets and the client can make new requests.
+- `retry-after`: If the maximum number of requests has been reached, this header specifies the number of milliseconds the client must wait before making new requests.
+
+By default, these headers are included in the response. However, if you don't need these headers or want to disable them, you can set the `includeHeaders` option to `false` when configuring the `RateLimitModule`. Here's an example:
+
+```ts
+@Module({
+  imports: [
+    RateLimitModule.forRoot({
+      // ...
+      includeHeaders: false, // Disable all rate limit headers
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+Setting `includeHeaders` to `false` will prevent the module from adding the rate limit headers to the response.
 
 ### Decorators
 
@@ -419,7 +445,7 @@ Alternatively, you can use a callback function to dynamically determine the rate
 
 In this example, the rate limit options are determined based on the isPremium property of the req.user object. If the user is premium, a higher limit of 100 requests is allowed; otherwise, a limit of 10 requests is enforced.
 
-### @SkipRateLimit()
+#### @SkipRateLimit()
 
 The `@SkipRateLimit()` decorator allows you to skip rate limiting for specific routes or controllers. It can be used in the following ways:
 
@@ -553,6 +579,68 @@ export class GqlRateLimitGuard extends RateLimitGuard {
   }
 }
 ```
+
+### Working with Websockets
+
+Here's an example of how to work with Websockets using the `RateLimitGuard` and customizing the error handling:
+
+```ts
+import { ExecutionContext, Injectable } from '@nestjs/common';
+import { RateLimitGuard } from '@unsoon/rate-limit';
+
+@Injectable()
+export class WsRateLimitGuard extends RateLimitGuard {
+  protected override getFingerprint(context: ExecutionContext) {
+    return ['conn', '_socket']
+      .map((key) => context.switchToWs().getClient()[key])
+      .filter((obj) => obj)
+      .shift().remoteAddress;
+  }
+}
+```
+
+To handle exceptions and errors when working with Websockets, you can create a custom filter:
+
+```ts
+import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
+import { BaseWsExceptionFilter, WsException } from '@nestjs/websockets';
+
+@Catch(WsException, HttpException)
+export class WsExceptionsFilter extends BaseWsExceptionFilter {
+  catch(exception: WsException | HttpException, host: ArgumentsHost) {
+    const client = host.switchToWs().getClient();
+
+    const error = exception instanceof WsException ? exception.getError() : exception.getResponse();
+
+    const details = error instanceof Object ? { ...error } : { message: error };
+
+    client.emit('error', details);
+  }
+}
+```
+
+Then, in your WebSocket gateway or controller, apply the rate limit guard and exception filter:
+
+```ts
+import { UseFilters, UseGuards } from '@nestjs/common';
+import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
+import { WsRateLimitGuard } from './ws-rate-limit.guard';
+import { WsExceptionsFilter } from './ws-exceptions.filter';
+
+@UseFilters(WsExceptionsFilter)
+@WebSocketGateway()
+export class AppGateway {
+  @UseGuards(WsRateLimitGuard)
+  @SubscribeMessage('message')
+  handleMessage(): string {
+    return 'Hello world!';
+  }
+}
+```
+
+Make sure to apply the `@UseGuards(WsRateLimitGuard)` decorator to the WebSocket handler or gateway method to enable rate limiting for Websockets. The `@UseFilters(WsExceptionsFilter)` decorator is used to handle exceptions and errors thrown during the WebSocket communication.
+
+With these implementations, you can effectively apply rate limiting and handle exceptions when working with Websockets in NestJS.
 
 ## License
 
