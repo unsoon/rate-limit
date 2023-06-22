@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://www.github.com/unsoon/rate-limit/compare/v1.0.0...v1.1.0) (2023-06-22)
+
+
+### Features
+
+* add field to include rate limit headers in response ([abe90d3](https://www.github.com/unsoon/rate-limit/commit/abe90d30cf8389f876414853636e3fae925df3ba))
+* **guard:** add ws support and option to control rt headers ([2c15116](https://www.github.com/unsoon/rate-limit/commit/2c15116dbf0f057607f14ce5318e71f60ae420d4))
+
+
+### Bug Fixes
+
+* add write-all permission ([2e709f7](https://www.github.com/unsoon/rate-limit/commit/2e709f752f2fddc301e4dfe5384601fe5845f678))
+
 ## 1.0.0 (2023-06-21)
 
 
