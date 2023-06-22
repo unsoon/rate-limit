@@ -31,15 +31,17 @@ export class RateLimitGuard implements CanActivate {
       store: options.store,
     }).check(fingerprint);
 
-    if (success) {
-      response.header('x-rate-limit', String(limit));
-      response.header('x-rate-remaining', String(remaining));
-      response.header('x-rate-reset', String(reset));
-    } else {
-      response.header('retry-after', String(reset));
-      throw new RateLimitException(options.errorMessage);
+    if (typeof response.header === 'function' && options.includeHeaders) {
+      if (success) {
+        response.header('x-rate-limit', String(limit));
+        response.header('x-rate-remaining', String(remaining));
+        response.header('x-rate-reset', String(reset));
+      } else {
+        response.header('retry-after', String(reset));
+      }
     }
 
+    if (!success) throw new RateLimitException(options.errorMessage);
     return success;
   }
 
@@ -92,6 +94,8 @@ export class RateLimitGuard implements CanActivate {
       ...rateLimitOptions,
       ...rateLimitOptionsFromReflector,
     };
+
+    options.includeHeaders ??= true;
 
     this.options = options;
 
