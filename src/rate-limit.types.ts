@@ -28,6 +28,7 @@ export interface RateLimitOptions {
   skipIf?: boolean | ((request: Request) => boolean);
   errorMessage?: string;
   store: RateLimitStore;
+  includeHeaders?: boolean;
 }
 
 export type RateLimitConfig = RateLimitOptions | ((request: Request) => RateLimitOptions);
