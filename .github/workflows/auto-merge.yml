@@ -5,10 +5,13 @@ on:
     branches:
       - develop
 
+permissions: write-all
+
 jobs:
   auto-merge:
     if: contains(github.event.pull_request.user.login, 'dependabot')
     runs-on: ubuntu-latest
+
     steps:
       - name: Merge pull requests from dependabot
         uses: pascalgn/automerge-action@v0.15.6
