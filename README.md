@@ -370,11 +370,36 @@ Here's an example of how to set a custom error message:
 export class AppModule {}
 ```
 
-In the example above, the `message` option is set to the desired error message. When a request exceeds the rate limit, this custom error message will be sent as the response to the client.
+In the example above, the `errorMessage` option is set to the desired error message. When a request exceeds the rate limit, this custom error message will be sent as the response to the client.
 
 By providing a meaningful error message, you can communicate the reason for the rate limit restriction and inform the client about when they can retry their request.
 
-Feel free to modify the `message` option to suit your specific use case and provide an appropriate error message to your clients.
+Feel free to modify the `errorMessage` option to suit your specific use case and provide an appropriate error message to your clients.
+
+### Headers
+
+The `RateLimitModule` automatically adds several headers to the response to provide rate limit information. Here are the headers that are included:
+
+- `x-rate-limit`: Indicates the maximum number of requests the client can make within the defined time window.
+- `x-rate-remaining`: Indicates the number of requests remaining for the client within the current time window.
+- `x-rate-reset`: Specifies the number of seconds remaining until the rate limit resets and the client can make new requests.
+- `retry-after`: If the maximum number of requests has been reached, this header specifies the number of milliseconds the client must wait before making new requests.
+
+By default, these headers are included in the response. However, if you don't need these headers or want to disable them, you can set the `includeHeaders` option to `false` when configuring the `RateLimitModule`. Here's an example:
+
+```ts
+@Module({
+  imports: [
+    RateLimitModule.forRoot({
+      // ...
+      includeHeaders: false, // Disable all rate limit headers
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+Setting `includeHeaders` to `false` will prevent the module from adding the rate limit headers to the response.
 
 ### Decorators
 
