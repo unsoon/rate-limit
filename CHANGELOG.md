@@ -1,5 +1,12 @@
 # Changelog
 
+### [1.1.1](https://www.github.com/unsoon/rate-limit/compare/v1.1.0...v1.1.1) (2024-03-03)
+
+
+### Bug Fixes
+
+* make RateLimit decorator accept an optional config parameter ([6ac3653](https://www.github.com/unsoon/rate-limit/commit/6ac36536523babfb1cdad0353f05931031b3758e))
+
 ## [1.1.0](https://www.github.com/unsoon/rate-limit/compare/v1.0.0...v1.1.0) (2023-06-22)
 
 
